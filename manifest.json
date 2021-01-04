@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "Chrome Extension Test",
+    "description": "This is test for chrome extension.",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://studio.youtube.com/video/*/livestreaming"
+            ],
+            "js": ["script.js"]
+        }
+    ],
+    "permissions": [
+        "storage"
+    ],
+
+    "browser_action": {
+        "default_title": "",
+        "default_popup": "popup.html"
+    }
+}
