@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 
-import CardContainerComponent from "./components/SuperChat/CardContainer/CardContainerComponent";
+import CardContainerComponent from "./container/CardContainer/CardContainer";
 import createAppReducer, { AppState } from "./domain/AppState/AppState";
 import { createStore } from "redux";
 import GetStorage from "./domain/ChromeExtension/Storage";

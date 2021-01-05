@@ -5,7 +5,7 @@ import {
   AddSuperchat,
   AppState,
   CheckedSuperchat,
-} from "../../../domain/AppState/AppState";
+} from "../../domain/AppState/AppState";
 
 const videoIdParseRegExp = /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
 

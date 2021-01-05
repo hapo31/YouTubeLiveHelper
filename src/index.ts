@@ -1,4 +1,4 @@
-import attachChatBox from "./components/SuperChat/attachChatBox";
+import attachChatBox from "./domain/SuperChat/attachChatBox";
 import {
   AppState,
   ChatInfo,
