@@ -4,8 +4,10 @@ import {
   compose,
   createStore,
   Middleware,
+  PreloadedState,
   Reducer,
 } from "redux";
+import GetStorage from "../ChromeExtension/Storage";
 
 function ChromeStorageMiddleware(): Middleware {
   return (store) => (next) => (action: Action) => {
@@ -13,17 +15,20 @@ function ChromeStorageMiddleware(): Middleware {
     console.log(action);
     next(action);
     const state = store.getState();
-    chrome.storage.local.set({ AppState: state });
+    chrome.storage.local.set({ state });
   };
 }
 
-export default function createChromeStorageSyncStore<State>(
+export default async function createChromeStorageSyncStore<State>(
   reducer: Reducer<State, any>
 ) {
   const composed = compose(applyMiddleware(ChromeStorageMiddleware()))(
     createStore
   );
-  const store = composed(reducer);
+
+  const initialState = await GetStorage<State>("state");
+
+  const store = composed(reducer, initialState as PreloadedState<State>);
   chrome.runtime.onMessage.addListener((action: Action) => {
     store.dispatch(action);
   });
