@@ -7,7 +7,8 @@ import {
   CheckedSuperchat,
 } from "../../domain/AppState/AppState";
 
-const videoIdParseRegExp = /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
+const videoIdParseRegExp =
+  /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
 
 export default () => {
   const appState = useAppState();

@@ -12,7 +12,7 @@ export default (props: Props) => {
   const remainCount = useMemo(
     () =>
       props.superChatList.length -
-      props.superChatList.filter(chat => chat.checked).length,
+      props.superChatList.filter((chat) => chat.checked).length,
     [props.superChatList]
   );
   return (

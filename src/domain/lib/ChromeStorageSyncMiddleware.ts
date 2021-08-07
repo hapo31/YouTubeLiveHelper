@@ -8,7 +8,7 @@ import {
 } from "redux";
 
 function ChromeStorageMiddleware(): Middleware {
-  return store => next => (action: Action) => {
+  return (store) => (next) => (action: Action) => {
     chrome.runtime.sendMessage(action);
     console.log(action);
     next(action);

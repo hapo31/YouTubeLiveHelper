@@ -10,17 +10,11 @@ type Props = {
 };
 
 const ChatCard = (props: Props) => {
-  const onClickCopyHandler = useCallback(
-    (text: string) => async () => {
-      navigator.clipboard.writeText(text);
-    },
-    []
-  );
+  const onClickCopyHandler = (text: string) => async () => {
+    navigator.clipboard.writeText(text);
+  };
 
-  const onClickContainerHandler = useCallback(
-    (index: number) => () => props.onClick(index),
-    [props.index]
-  );
+  const onClickContainerHandler = (index: number) => () => props.onClick(index);
 
   const { superChatInfo } = props;
   return (

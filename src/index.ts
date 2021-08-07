@@ -10,7 +10,8 @@ import createAppReducer from "./domain/AppState/AppState";
 import GetStorage from "./domain/ChromeExtension/Storage";
 import createChromeStorageSyncStore from "./domain/lib/ChromeStorageSyncMiddleware";
 
-const videoIdParseRegExp = /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
+const videoIdParseRegExp =
+  /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
 
 (async () => {
   console.log("Enable YTLHC");
