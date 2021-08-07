@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { SuperChatInfo } from "../../domain/AppState/AppState";
+import { SuperChatInfo } from "../../../state/AppState";
 
-import ChatCard from "../../components/ChatCard/ChatCard";
+import ChatCard from "../../../components/ChatCard/ChatCard";
 
 type Props = {
   superChatList: SuperChatInfo[];

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 import styled from "styled-components";
-import { SuperChatInfo } from "../../domain/AppState/AppState";
+import { SuperChatInfo } from "../../state/AppState";
 
 type Props = {
   superChatInfo: SuperChatInfo;

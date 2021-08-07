@@ -1,11 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import SuperChatCardList from "./SuperChatCardList";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  AddSuperchat,
-  AppState,
-  CheckedSuperchat,
-} from "../../domain/AppState/AppState";
+import { AppState, CheckedSuperchat } from "../../../state/AppState";
 
 const videoIdParseRegExp =
   /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
