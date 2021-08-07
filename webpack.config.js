@@ -97,4 +97,32 @@ var popup = {
   }
 };
 
-module.exports = [index, popup];
+var oauth_handler = {
+  mode: isDev ? "development" : "production",
+  devtool: isDev ? "source-map" : false,
+  entry: path.join(__dirname, "src", "oauth_handler"),
+  output: {
+    filename: "oauth_handler.js",
+    path: path.resolve(outputPath),
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
+  module: {
+    rules: [
+      {
+        test: /.tsx?$/,
+        include: [path.resolve(__dirname, "src")],
+        exclude: [path.resolve(__dirname, "node_modules")],
+        loader: "ts-loader",
+      },
+    ],
+  },
+  resolve: {
+    extensions: resolveExt
+  },
+  plugins: [],
+};
+
+module.exports = [index, popup, oauth_handler];
