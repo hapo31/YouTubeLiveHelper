@@ -4,18 +4,19 @@
     "description": "Youtube Live をちょっと便利にします",
     "version": "1.0",
     "content_scripts": [
-        {
-            "matches": [
-                "https://studio.youtube.com/video/*/livestreaming"
-            ],
-            "js": ["script.js"]
-        },
-        {
-          "matches": [
-            "https://ytlh-server.herokuapp.com/authorize"
+      {
+        "matches": [
+          "https://studio.youtube.com/video/*/livestreaming"
+        ],
+        "js": ["script.js"]
+      },
+      {
+        "run_at": "document_start",
+        "matches": [
+          "https://ytlh-server.herokuapp.com/redirect*"
         ],
         "js": ["oauth_handler.js"]
-        }
+      }
     ],
     "permissions": [
         "storage"
