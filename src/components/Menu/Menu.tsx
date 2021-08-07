@@ -7,7 +7,7 @@ type Props = {
   onClickPage: (index: number) => void;
 };
 
-export default (props: Props) => {
+const Menu = (props: Props) => {
   return (
     <Container>
       {props.titles.map((title, i) => (
@@ -16,6 +16,8 @@ export default (props: Props) => {
     </Container>
   );
 };
+
+export default Menu;
 
 const Container = styled.div`
   margin: 10px;

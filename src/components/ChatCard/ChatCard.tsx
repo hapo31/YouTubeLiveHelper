@@ -9,7 +9,7 @@ type Props = {
   onClick: (index: number) => void;
 };
 
-export default (props: Props) => {
+const ChatCard = (props: Props) => {
   const onClickCopyHandler = useCallback(
     (text: string) => async () => {
       navigator.clipboard.writeText(text);
@@ -53,6 +53,8 @@ export default (props: Props) => {
     </Container>
   );
 };
+
+export default ChatCard;
 
 type styledProps = {
   color?: string;
