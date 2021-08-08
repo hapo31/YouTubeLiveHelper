@@ -1,33 +1,15 @@
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-
-import CardContainerComponent from "./container/Popup/CardContainer/CardContainer";
-import GetStorage from "./domain/ChromeExtension/Storage";
-import { OAuthInfo, setAuthInfo } from "./state/Auth";
+import PopupIndex from "./container/Popup/PoupIndex";
 import { createRootStore } from "./state/root";
 
-(async () => {
-  const store = await createRootStore();
-  const oauthInfo = await GetStorage<OAuthInfo>("oauth_info");
+const store = createRootStore();
+const target = document.getElementById("app");
 
-  const target = document.getElementById("app");
-
-  if (oauthInfo != null) {
-    store.dispatch(
-      setAuthInfo({
-        accessToken: oauthInfo.access_token,
-        expiresIn: new Date(oauthInfo.expires_in),
-        refreshToken: oauthInfo.refresh_token,
-        isAuthorized: true,
-      })
-    );
-  }
-
-  render(
-    <Provider store={store}>
-      <CardContainerComponent />
-    </Provider>,
-    target
-  );
-})();
+render(
+  <Provider store={store}>
+    <PopupIndex />
+  </Provider>,
+  target
+);

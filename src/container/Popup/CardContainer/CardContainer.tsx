@@ -6,7 +6,7 @@ import { AppState, CheckedSuperchat } from "../../../state/AppState";
 const videoIdParseRegExp =
   /https:\/\/studio\.youtube\.com\/video\/(\w+)\/livestreaming/;
 
-export default () => {
+const CardContainer = () => {
   const appState = useAppState();
   const dispatch = useDispatch();
   const videoId = appState.showingVideoId;
@@ -29,6 +29,8 @@ export default () => {
     </>
   );
 };
+
+export default CardContainer;
 
 function useAppState() {
   return useSelector((appState: AppState) => appState);

@@ -1,7 +1,13 @@
 import { Reducer } from "react";
 import { useSelector } from "react-redux";
-import { AnyAction, combineReducers } from "redux";
-import createChromeStorageSyncStore from "../domain/lib/ChromeStorageSyncMiddleware";
+import {
+  AnyAction,
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+} from "redux";
+import thunk from "redux-thunk";
 
 import appReducer, { AppState } from "./AppState";
 import authReducer from "./Auth";
@@ -11,11 +17,13 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-export const createRootStore = () => createChromeStorageSyncStore(rootReducer);
+export const createRootStore = () => {
+  return createStore(rootReducer, applyMiddleware(thunk));
+};
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export const useState = <T>(selector: (state: RootState) => T) => {
+export const useRootState = <T>(selector: (state: RootState) => T) => {
   const state = useSelector(selector);
 
   return state;
