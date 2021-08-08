@@ -76,7 +76,11 @@ var popup = {
         include: [path.resolve(__dirname, "img")],
         exclude: [path.resolve(__dirname, "node_modules")],
         loader: "react-svg-loader",
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   resolve: {
