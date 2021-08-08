@@ -11,7 +11,7 @@
         "js": ["script.js"]
       },
       {
-        "run_at": "document_start",
+        "run_at": "document_end",
         "matches": [
           "https://ytlh-server.herokuapp.com/redirect*"
         ],
