@@ -4,17 +4,21 @@ import {
   AnyAction,
   applyMiddleware,
   combineReducers,
-  compose,
   createStore,
 } from "redux";
 import thunk from "redux-thunk";
 
-import appReducer, { AppState } from "./AppState";
+import createAppReducer, { AppState } from "./AppState";
 import authReducer from "./Auth";
+import logReducer from "./Log";
 
 const rootReducer = combineReducers({
-  app: appReducer as unknown as Reducer<AppState, AnyAction>,
+  app: createAppReducer({
+    showingVideoId: "test",
+    streamings: {}
+  }),
   auth: authReducer,
+  log: logReducer,
 });
 
 export const createRootStore = () => {
