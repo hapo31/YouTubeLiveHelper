@@ -5,6 +5,11 @@ import { getAuthInfoAsync } from "../../state/Auth";
 import { useRootState } from "../../state/root";
 import CardContainer from "./CardContainer/CardContainer";
 import OAuthRequiredContainer from "./OAuthRequiredContainer/OAuthRequiredContainer";
+import "react-tabs/style/react-tabs.css";
+import styled from "styled-components";
+import { AppTheme } from "../../mixins/AppTheme";
+import { SetShowingVideoId } from "../../state/AppState";
+import LogContainer from "./LogContainer/LogContainer";
 
 const PopupIndex = () => {
   const dispatch = useDispatch();
@@ -16,23 +21,36 @@ const PopupIndex = () => {
   useEffect(() => {
     if (!auth.isAuthorized) {
       dispatch(getAuthInfoAsync());
+      dispatch(SetShowingVideoId("test"));
     }
   }, [auth.isAuthorized, dispatch]);
 
   return (
-    <Tabs defaultIndex={0}>
+    <AppTab defaultIndex={0}>
       <TabList>
-        <Tab>認証</Tab>
         <Tab>スーパーチャット</Tab>
+        <Tab>認証</Tab>
+        <Tab>ログ</Tab>
       </TabList>
-      <TabPanel>
-        <OAuthRequiredContainer />
-      </TabPanel>
-      <TabPanel>
+      <AppTabPanel>
         <CardContainer />
-      </TabPanel>
-    </Tabs>
+      </AppTabPanel>
+      <AppTabPanel>
+        <OAuthRequiredContainer />
+      </AppTabPanel>
+      <AppTabPanel>
+        <LogContainer />
+      </AppTabPanel>
+    </AppTab>
   );
 };
+
+const AppTab = styled(Tabs)`
+  background-color: #ccc;
+`;
+
+const AppTabPanel = styled(TabPanel)`
+  ${AppTheme}
+`;
 
 export default PopupIndex;
