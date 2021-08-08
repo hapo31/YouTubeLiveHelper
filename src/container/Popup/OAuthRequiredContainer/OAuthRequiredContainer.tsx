@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getOAuth2URL } from "../../../domain/YTLHServer/YTLHAPI";
+import { AppTheme } from "../../../mixins/AppTheme";
 import { resetAuthAsync } from "../../../state/Auth";
 import { useRootState } from "../../../state/root";
 
@@ -37,7 +38,13 @@ const OAuthRequiredContainer = () => {
 
 export default OAuthRequiredContainer;
 
-const Container = styled.div``;
+const Container = styled.div`
+  ${AppTheme}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
 
 const StartOAuthButton = styled.button`
   border-radius: 10px;
