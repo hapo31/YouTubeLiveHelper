@@ -8,7 +8,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
   ],
   globals: {
@@ -30,16 +29,6 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-empty-function": "warn",
-    "no-console": "warn",
-    "prettier/prettier": [
-      "error",
-      {
-        singleQuote: false,
-        semi: true,
-        tabWidth: 2,
-        endOfLine: "lf",
-        trailingComma: "es5",
-      },
-    ],
+    "no-console": "warn"
   },
 };
