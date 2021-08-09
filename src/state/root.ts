@@ -15,7 +15,7 @@ import logReducer from "./Log";
 const rootReducer = combineReducers({
   app: createAppReducer({
     showingVideoId: "test",
-    streamings: {}
+    streamings: {},
   }),
   auth: authReducer,
   log: logReducer,

@@ -63,7 +63,8 @@ const slice = createSlice({
       state.accessToken = payload.access_token;
       state.expiresIn = new Date(payload.expires_in);
       state.refreshToken = payload.refresh_token;
-      state.isAuthorized = state.accessToken != null && state.refreshToken != null;
+      state.isAuthorized =
+        state.accessToken != null && state.refreshToken != null;
     });
     builder.addCase(setAuthInfoAsync.fulfilled, (state, action) => {
       const { payload } = action;
@@ -74,7 +75,8 @@ const slice = createSlice({
       state.accessToken = payload.access_token;
       state.expiresIn = new Date(payload.expires_in);
       state.refreshToken = payload.refresh_token;
-      state.isAuthorized = state.accessToken != null && state.refreshToken != null;
+      state.isAuthorized =
+        state.accessToken != null && state.refreshToken != null;
     });
     builder.addCase(resetAuthAsync.fulfilled, (state, action) => {
       state.isAuthorized = false;

@@ -10,7 +10,7 @@ export type AuthInfo = {
   accessToken: string;
   refreshToken: string;
   expiresIn: Date;
-}
+};
 
 async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo) {
   if (Date.now() > authInfo.expiresIn.getTime()) {
@@ -20,8 +20,8 @@ async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo) {
     method,
     mode: "cors",
     headers: {
-      "Authorization": `Bearer ${authInfo.accessToken}`
-    }
+      Authorization: `Bearer ${authInfo.accessToken}`,
+    },
   });
 }
 
@@ -29,7 +29,7 @@ export const updateAccessToken = async (authInfo: AuthInfo) => {
   const res = await fetch("http://localhost:8080/token", {
     method: "POST",
     mode: "cors",
-    body: `refresh_token=${encodeURIComponent(authInfo.refreshToken)}`
+    body: `refresh_token=${encodeURIComponent(authInfo.refreshToken)}`,
   });
 
   const oauthInfo = await res.json();
@@ -37,11 +37,15 @@ export const updateAccessToken = async (authInfo: AuthInfo) => {
   return {
     accessToken: oauthInfo.access_token as string,
     expiresIn: add(new Date(), { seconds: oauthInfo.expires_in }),
-  }
-}
+  };
+};
 
 export const fetchSuperChatEvents = async (authInfo: AuthInfo) => {
-  const res = await googleAPIFetch("get", "https://www.googleapis.com/youtube/v3/superChatEvents", authInfo);
+  const res = await googleAPIFetch(
+    "get",
+    "https://www.googleapis.com/youtube/v3/superChatEvents",
+    authInfo
+  );
   const data = await res.json();
   return data.items;
-}
+};
