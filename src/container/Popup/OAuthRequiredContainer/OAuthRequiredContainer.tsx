@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getOAuth2URL } from "../../../domain/YTLHServer/YTLHAPI";
@@ -7,6 +7,7 @@ import { resetAuthAsync } from "../../../state/Auth";
 import { useRootState } from "../../../state/root";
 
 const OAuthRequiredContainer = () => {
+  const [isPending, setIsPending] = useState(false);
   const dispatch = useDispatch();
   const { auth } = useRootState((rootState) => ({
     auth: rootState.auth,
@@ -16,12 +17,15 @@ const OAuthRequiredContainer = () => {
     <Container>
       {!auth.isAuthorized ? (
         <StartOAuthButton
+          disabled={isPending}
           onClick={async () => {
+            setIsPending(true);
             const oauth2Url = await getOAuth2URL();
             window.open(oauth2Url, "_blank");
+            setIsPending(false);
           }}
         >
-          認証する
+          {!isPending ? "認証する" : "認証ページを開いています…"}
         </StartOAuthButton>
       ) : (
         <StartOAuthButton
