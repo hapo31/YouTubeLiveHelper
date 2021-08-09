@@ -20,20 +20,20 @@ edge://extensions/
 赤ニョロは気にしない（これが出てたら有効だよぐらいの意味）
 
 Chromeの場合
-![Chrome](imgs/ext1.png)
+![Chrome](imgs/ext1.jpg)
 
 Edgeの場合
-![Edge](imgs/ext2.png)
+![Edge](imgs/ext2.jpg)
 
 ## 3. このページに、YTLH_betaのフォルダをドラッグアンドドロップ する。
 
 YTLH_beta.zip は [ここ](https://github.com/hapo31/YouTubeLiveHelper/releases/download/0.0.1/YTLH_beta.zip)からダウンロードして解凍する。
 
-![D&D](imgs/ext7.png)
+![D&D](imgs/ext7.jpg)
 
 ## 4. こういうのが出てきたら準備完了
 
-![ready](imgs/ext6.png)
+![ready](imgs/ext6.jpg)
 
 # YouTube Live Helper 拡張機能の使い方
 
@@ -42,12 +42,12 @@ YTLH_beta.zip は [ここ](https://github.com/hapo31/YouTubeLiveHelper/releases/
 Edge だといきなり表示されてるかも。  
 以下はChromeの場合
 
-![extbar](imgs/tutorial_0.png)
+![extbar](imgs/tutorial_0.jpg)
 赤丸の部分をクリックして出てきたメニューのピン止めマークを押すと、拡張機能のところに「Y」アイコンが表示されるはず。
 
 ## 1. アイコンをクリックして、ポップアップを表示する
 
-![popup](imgs/tutorial_000.png)
+![popup](imgs/tutorial_000.jpg)
 
 ## 2. 「認証」タブをクリックして「認証する」ボタンを押して、しばらく待つ
 
@@ -55,34 +55,34 @@ Edge だといきなり表示されてるかも。
 ### しかも作りがまずくて、別のところをクリックしたりして閉じてしまうとこの処理は中断されてしまいます
 ### なので、しばらくこの画面で触らずにお待ちください・・・。
 
-![auth](imgs/tutorial0.png)
+![auth](imgs/tutorial0.jpg)
 
 
 ## 3. しばらくすると、Googleのログインページが開くので、ログインする。
 
 この時点でポップアップは閉じて大丈夫。
 
-![google](imgs/tutorial3_0.png)
+![google](imgs/tutorial3_0.jpg)
 
 ## 4. 以下の警告が出るので、手順に従って次に進む
 
 ### これは僕のせいなので、この画面が出なくなるようにそのうちきちんと認証します…。
 
 「詳細」
-![warn](imgs/tutorial1.png)
+![warn](imgs/tutorial1.jpg)
 
 「ytlh-server.herokuapp.com（安全ではないページ）に移動」
-![warn](imgs/tutorial2.png)
+![warn](imgs/tutorial2.jpg)
 
 ## 5. アクセス権限を確認して付与し、 Continue
 
 ### チェックボックスが出てたらチェックを入れてあげること。
-![info](imgs/tutorial3.png)
+![info](imgs/tutorial3.jpg)
 
 
 ## 6. 以下の画面が出てきたら認証完了
 
-![ok](imgs/tutorial4.png)
+![ok](imgs/tutorial4.jpg)
 
 ~~クソみてーに簡単な画面だな~~
 
@@ -90,7 +90,7 @@ Edge だといきなり表示されてるかも。
 
 ## 8. 画像の赤線に出てくる長い文字列をコピーして僕に報告！
 
-![log](imgs/tutorial5.png)
+![log](imgs/tutorial5.jpg)
 
 きちんと動いていればここにスパチャの情報が出てくるはず・・・。  
 ~~ちなみに僕は収益化通ってないので空っぽです~~
