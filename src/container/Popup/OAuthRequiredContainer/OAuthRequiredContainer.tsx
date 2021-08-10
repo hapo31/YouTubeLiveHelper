@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { getOAuth2URL } from "../../../domain/YTLHServer/YTLHAPI";
+import { StartOAuth } from "../../../chrome/eventConsts";
 import { AppTheme } from "../../../mixins/AppTheme";
 import { resetAuthAsync } from "../../../state/Auth";
 import { useRootState } from "../../../state/root";
@@ -20,9 +20,9 @@ const OAuthRequiredContainer = () => {
           disabled={isPending}
           onClick={async () => {
             setIsPending(true);
-            const oauth2Url = await getOAuth2URL();
-            window.open(oauth2Url, "_blank");
-            setIsPending(false);
+            chrome.runtime.sendMessage(StartOAuth(), () => {
+              setIsPending(false);
+            });
           }}
         >
           {!isPending ? "認証する" : "認証ページを開いています…"}

@@ -6,12 +6,10 @@ import ChatCard from "../../../components/ChatCard/ChatCard";
 import { useRootState } from "../../../state/root";
 import {
   fetchSuperChatEvents,
-  updateAccessToken,
   YoutubeAPIError,
 } from "../../../domain/Youtube/YoutubeAPI";
 import { useDispatch } from "react-redux";
 import { addLog, LogLevel } from "../../../state/Log";
-import { setAuthInfo, setAuthInfoAsync } from "../../../state/Auth";
 
 type Props = {
   superChatList: SuperChatInfo[];

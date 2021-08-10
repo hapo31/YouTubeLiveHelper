@@ -129,4 +129,33 @@ var oauth_handler = {
   plugins: [],
 };
 
-module.exports = [index, popup, oauth_handler];
+var event_page = {
+  mode: isDev ? "development" : "production",
+  devtool: isDev ? "source-map" : false,
+  entry: path.join(__dirname, "src", "event_page"),
+  output: {
+    filename: "event_page.js",
+    path: path.resolve(outputPath),
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
+  module: {
+    rules: [
+      {
+        test: /.tsx?$/,
+        include: [path.resolve(__dirname, "src")],
+        exclude: [path.resolve(__dirname, "node_modules")],
+        loader: "ts-loader",
+      },
+    ],
+  },
+  resolve: {
+    extensions: resolveExt
+  },
+  plugins: [],
+};
+
+
+module.exports = [index, popup, oauth_handler, event_page];

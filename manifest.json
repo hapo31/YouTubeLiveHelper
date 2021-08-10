@@ -18,6 +18,9 @@
         "js": ["oauth_handler.js"]
       }
     ],
+    "background": {
+      "scripts": ["event_page.js"]
+    },
     "permissions": [
         "storage"
     ],
