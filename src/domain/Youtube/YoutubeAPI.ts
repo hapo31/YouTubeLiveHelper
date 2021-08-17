@@ -1,4 +1,5 @@
 import add from "date-fns/add";
+import qs from "qs";
 
 export class YoutubeAPIError extends Error {
   constructor(message: string) {
@@ -12,11 +13,11 @@ export type AuthInfo = {
   expiresIn: Date;
 };
 
-async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo) {
+async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo, query?: unknown) {
   if (Date.now() > authInfo.expiresIn.getTime()) {
     throw new YoutubeAPIError("access_token expired");
   }
-  return fetch(url, {
+  return fetch([url].concat(query ? [qs.stringify(query)] : []).join("?"), {
     method,
     mode: "cors",
     headers: {
@@ -26,7 +27,7 @@ async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo) {
 }
 
 export const updateAccessToken = async (authInfo: AuthInfo) => {
-  const res = await fetch("http://localhost:8080/token", {
+  const res = await fetch("https://ytlh-server.herokuapp.com/token", {
     method: "POST",
     mode: "cors",
     body: `refresh_token=${encodeURIComponent(authInfo.refreshToken)}`,
@@ -44,7 +45,10 @@ export const fetchSuperChatEvents = async (authInfo: AuthInfo) => {
   const res = await googleAPIFetch(
     "get",
     "https://www.googleapis.com/youtube/v3/superChatEvents",
-    authInfo
+    authInfo,
+    {
+      part: "snippet"
+    }
   );
   const data = await res.json();
   return data.items;
