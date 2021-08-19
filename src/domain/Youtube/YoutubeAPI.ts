@@ -13,7 +13,12 @@ export type AuthInfo = {
   expiresIn: Date;
 };
 
-async function googleAPIFetch(method: string, url: string, authInfo: AuthInfo, query?: unknown) {
+async function googleAPIFetch(
+  method: string,
+  url: string,
+  authInfo: AuthInfo,
+  query?: unknown
+) {
   if (Date.now() > authInfo.expiresIn.getTime()) {
     throw new YoutubeAPIError("access_token expired");
   }
@@ -30,7 +35,10 @@ export const updateAccessToken = async (authInfo: AuthInfo) => {
   const res = await fetch("https://ytlh-server.herokuapp.com/token", {
     method: "POST",
     mode: "cors",
-    body: `refresh_token=${encodeURIComponent(authInfo.refreshToken)}`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+    },
+    body: qs.stringify({ refresh_token: authInfo.refreshToken }),
   });
 
   const oauthInfo = await res.json();
@@ -47,7 +55,7 @@ export const fetchSuperChatEvents = async (authInfo: AuthInfo) => {
     "https://www.googleapis.com/youtube/v3/superChatEvents",
     authInfo,
     {
-      part: "snippet"
+      part: "snippet",
     }
   );
   const data = await res.json();
