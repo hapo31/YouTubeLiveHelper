@@ -8,15 +8,12 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 
-import createAppReducer, { AppState } from "./AppState";
+import appReducer from "./AppState";
 import authReducer from "./Auth";
 import logReducer from "./Log";
 
 const rootReducer = combineReducers({
-  app: createAppReducer({
-    showingVideoId: "test",
-    streamings: {},
-  }),
+  app: appReducer,
   auth: authReducer,
   log: logReducer,
 });

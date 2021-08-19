@@ -1,11 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import SuperChatCardList from "./SuperChatCardList";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  AddSuperchat,
-  AppState,
-  CheckedSuperchat,
-} from "../../../state/AppState";
+import { AddSuperchat, CheckedSuperchat } from "../../../state/AppState";
 import { RootState } from "../../../state/root";
 
 const videoIdParseRegExp =
@@ -18,7 +14,7 @@ const CardContainer = () => {
   const onClickCardHandler = useCallback(
     (index: number) => {
       if (videoId) {
-        dispatch(CheckedSuperchat(videoId, index));
+        dispatch(CheckedSuperchat({ videoId, index }));
       }
     },
     [videoId]
@@ -29,21 +25,24 @@ const CardContainer = () => {
       <button
         onClick={() => {
           dispatch(
-            AddSuperchat("test", {
-              author: "test",
-              authorRaw: "testtest",
-              checked: false,
-              imgUrl: "",
-              message: "hogeee",
-              messageRaw: "heoea",
-              purches: "200",
-              superChatColorInfo: {
-                authorName: "hoge",
-                header: "hhhh",
-                message: "123131",
-                primary: "#aaa",
-                secondary: "#690",
-                timestamp: "11415",
+            AddSuperchat({
+              videoId: "test",
+              superChat: {
+                author: "test",
+                authorRaw: "testtest",
+                checked: false,
+                imgUrl: "",
+                message: "hogeee",
+                messageRaw: "heoea",
+                purches: "200",
+                superChatColorInfo: {
+                  authorName: "hoge",
+                  header: "hhhh",
+                  message: "123131",
+                  primary: "#aaa",
+                  secondary: "#690",
+                  timestamp: "11415",
+                },
               },
             })
           );

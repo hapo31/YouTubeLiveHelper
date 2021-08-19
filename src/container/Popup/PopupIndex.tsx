@@ -21,7 +21,7 @@ const PopupIndex = () => {
   useEffect(() => {
     if (!auth.isAuthorized) {
       dispatch(getAuthInfoAsync());
-      dispatch(SetShowingVideoId("test"));
+      dispatch(SetShowingVideoId({ videoId: "test" }));
     }
   }, [auth.isAuthorized, dispatch]);
 
