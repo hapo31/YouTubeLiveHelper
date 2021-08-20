@@ -22,7 +22,8 @@
       "scripts": ["event_page.js"]
     },
     "permissions": [
-        "storage"
+        "storage",
+        "tabs"
     ],
 
     "browser_action": {
