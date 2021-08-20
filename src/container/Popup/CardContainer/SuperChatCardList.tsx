@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { SuperChatInfo } from "../../../state/AppState";
 

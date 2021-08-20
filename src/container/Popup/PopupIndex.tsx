@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import { getAuthInfoAsync } from "../../state/Auth";
@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../mixins/AppTheme";
 import { SetShowingVideoId } from "../../state/AppState";
 import LogContainer from "./LogContainer/LogContainer";
+import Tools from "./Tools/Tools";
 
 const PopupIndex = () => {
   const dispatch = useDispatch();
@@ -28,10 +29,14 @@ const PopupIndex = () => {
   return (
     <AppTab defaultIndex={0}>
       <TabList>
+        <Tab>ツール</Tab>
         <Tab>スーパーチャット</Tab>
         <Tab>認証</Tab>
         <Tab>ログ</Tab>
       </TabList>
+      <AppTabPanel>
+        <Tools />
+      </AppTabPanel>
       <AppTabPanel>
         <CardContainer />
       </AppTabPanel>
