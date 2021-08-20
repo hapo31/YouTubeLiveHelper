@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
+    "clipboard-copy": "^4.0.1",
     "date-fns": "^2.23.0",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
