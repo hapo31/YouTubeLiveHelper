@@ -26,7 +26,7 @@ const Tools = () => {
       <Button
         disabled={videoId == null}
         onClick={() => {
-          copy(`https://studio.youtube.com/live_chat?is_popout=1&${videoId}`);
+          copy(`https://studio.youtube.com/live_chat?is_popout=1&v=${videoId}`);
         }}
       >
         チャットURLをコピー
@@ -34,7 +34,7 @@ const Tools = () => {
       <Button
         disabled={videoId == null}
         onClick={() => {
-          copy(location.href);
+          copy(`https://studio.youtube.com/video/${videoId}/livestreaming`);
         }}
       >
         配信URLをコピー
