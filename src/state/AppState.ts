@@ -1,11 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import superChatColorTable from "../domain/SuperChat/superchatColorTable";
+import {
+  AuthInfo,
+  fetchSuperChatEvents as fetchSuperChatEventsAPI,
+} from "../domain/Youtube/YoutubeAPI";
 
 type SuperChatColorInfo = {
   primary: string;
   secondary: string;
-  header: string;
-  authorName: string;
-  timestamp: string;
+  text: string;
   message: string;
 };
 
@@ -15,13 +18,14 @@ export type ChatInfo = {
 };
 
 export type SuperChatInfo = {
+  id: string;
+  videoId: string;
   imgUrl: string;
   purches: string;
   author: string;
   message: string;
   superChatColorInfo: SuperChatColorInfo;
-  authorRaw: string;
-  messageRaw: string;
+  createdAt: string;
   checked: boolean;
 };
 
@@ -32,18 +36,41 @@ export type LiveStreamingInfo = {
 
 export type AppState = {
   showingVideoId: string;
-  streamings: Record<string, LiveStreamingInfo>;
+  superChatList: SuperChatInfo[];
+  fetchSuperchatError: Error | null;
+  isLoadingSuperchatEvents: boolean;
 };
 
 const initialState: AppState = {
+  fetchSuperchatError: null,
+  isLoadingSuperchatEvents: false,
   showingVideoId: "test",
-  streamings: {},
+  superChatList: [],
 };
+
+export const fetchSuperChatEvents = createAsyncThunk(
+  "app/fetchSuperChatEvents",
+  async (authInfo: AuthInfo, thunkAPI) => {
+    thunkAPI.dispatch(StartFetchSuperchat());
+    const result = await fetchSuperChatEventsAPI(authInfo, true);
+    thunkAPI.dispatch(FinishedFetchSuperchat());
+    return { result };
+  }
+);
 
 const slice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    StartFetchSuperchat: (state) => {
+      state.isLoadingSuperchatEvents = true;
+    },
+    FinishedFetchSuperchat: (state) => {
+      state.isLoadingSuperchatEvents = false;
+    },
+    ResolvedError: (state) => {
+      state.fetchSuperchatError = null;
+    },
     SetShowingVideoId: (
       state,
       action: PayloadAction<{
@@ -55,40 +82,68 @@ const slice = createSlice({
     AddSuperchat: (
       state,
       action: PayloadAction<{
-        videoId: string;
         superChat: SuperChatInfo;
       }>
     ) => {
       const {
-        payload: { superChat, videoId },
+        payload: { superChat },
       } = action;
-      if (state.streamings[videoId] == null) {
-        state.streamings[videoId] = {
-          videoId,
-          superChatInfoList: [superChat],
-        };
-      } else {
-        state.streamings[videoId].superChatInfoList.push(superChat);
-      }
+      state.superChatList.push(superChat);
     },
     CheckedSuperchat: (
       state,
       action: PayloadAction<{
-        videoId: string;
         index: number;
       }>
     ) => {
       const {
-        payload: { videoId, index },
+        payload: { index },
       } = action;
-      state.streamings[videoId].superChatInfoList[index].checked = true;
-      state.streamings[videoId].superChatInfoList = [
-        ...state.streamings[videoId].superChatInfoList,
-      ];
+      state.superChatList[index].checked = true;
     },
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchSuperChatEvents.fulfilled, (state, action) => {
+      const { result } = action.payload;
+      state.superChatList.push(
+        ...result.map((result) => {
+          const [primaryColor, secondaryColor, authorColor] =
+            superChatColorTable(result.snippet.messageType);
+          return {
+            id: result.id,
+            author: result.snippet.supporterDetails.displayName,
+            checked: false,
+            imgUrl: result.snippet.supporterDetails.profileImageUrl,
+            message: result.snippet.commentText,
+            purches: result.snippet.displayString,
+            createdAt: result.snippet.createdAt,
+            videoId: "", // 日時から特定できそうだけど面倒ね
+            superChatColorInfo: {
+              text: authorColor,
+              primary: primaryColor,
+              secondary: secondaryColor,
+              message: authorColor,
+            },
+          };
+        })
+      );
+      state.isLoadingSuperchatEvents = false;
+    });
+
+    builder.addCase(fetchSuperChatEvents.rejected, (state, action) => {
+      state.fetchSuperchatError = action.error as Error;
+      state.isLoadingSuperchatEvents = false;
+    });
   },
 });
 
-export const { AddSuperchat, CheckedSuperchat, SetShowingVideoId } =
-  slice.actions;
+const { StartFetchSuperchat, FinishedFetchSuperchat } = slice.actions;
+
+export const {
+  AddSuperchat,
+  CheckedSuperchat,
+  SetShowingVideoId,
+  ResolvedError,
+} = slice.actions;
 export default slice.reducer;

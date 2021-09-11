@@ -1,17 +1,11 @@
 import { useMemo, useEffect, useState } from "react";
 import styled from "styled-components";
-import { SuperChatInfo } from "../../../state/AppState";
+import { fetchSuperChatEvents, SuperChatInfo } from "../../../state/AppState";
 
 import ChatCard from "../../../components/ChatCard/ChatCard";
 import { useRootState } from "../../../state/root";
-import {
-  fetchSuperChatEvents,
-  updateAccessToken,
-  YoutubeAPIError,
-} from "../../../domain/Youtube/YoutubeAPI";
 import { useDispatch } from "react-redux";
-import { addLog, LogLevel } from "../../../state/Log";
-import { setAuthInfoAsync } from "../../../state/Auth";
+import useErrorHandle from "../../../hooks/useErrorHandle";
 
 type Props = {
   superChatList: SuperChatInfo[];
@@ -34,10 +28,9 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
       <ChatCardContainer>
         {superChatList.map((superChat, index) => (
           <ChatCard
-            key={`${index}-${superChat.messageRaw}`}
-            onClick={onClickCard}
+            key={`${index}-${superChat.message}`}
+            onClick={() => onClickCard(index)}
             superChatInfo={superChat}
-            index={index}
           />
         ))}
       </ChatCardContainer>
@@ -53,47 +46,19 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
 export default SuperChatCardList;
 
 const usePrepare = () => {
-  const [superChatFetched, setSuperChatFetched] = useState(false);
-  const auth = useRootState((rootState) => rootState.auth);
+  const [superChatFetched] = useState(false);
+  const { auth } = useRootState((rootState) => ({
+    auth: rootState.auth,
+    app: rootState.app,
+  }));
+
   const dispatch = useDispatch();
+
+  useErrorHandle();
 
   useEffect(() => {
     if (auth.isAuthorized && !superChatFetched) {
-      fetchSuperChatEvents(auth)
-        .then((result) => {
-          if (!result) {
-            return;
-          }
-          const dataStr = JSON.stringify(result);
-          dispatch(addLog({ message: dataStr, level: LogLevel.DEBUG }));
-          setSuperChatFetched(true);
-        })
-        .catch((e) => {
-          if (e instanceof YoutubeAPIError) {
-            setSuperChatFetched(true);
-            // TODO: 本来であれば↓を読んで update accessToken する必要があるけど無限ループするっぽいので
-            // 原因が判明するまでCO
-            updateAccessToken(auth).then((result) => {
-              dispatch(
-                setAuthInfoAsync({
-                  refresh_token: auth.refreshToken,
-                  access_token: result.accessToken,
-                  expires_in: result.expiresIn.getDate(),
-                })
-              );
-              setSuperChatFetched(false);
-            });
-          } else {
-            dispatch(
-              addLog({
-                message:
-                  "不明なエラーが発生しました。ネットワーク接続が切れている可能性があります。",
-                level: LogLevel.ERROR,
-              })
-            );
-            setSuperChatFetched(true);
-          }
-        });
+      dispatch(fetchSuperChatEvents(auth));
     }
   }, [auth, dispatch, superChatFetched]);
 };

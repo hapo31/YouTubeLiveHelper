@@ -1,31 +1,29 @@
-import { Reducer } from "react";
+import { configureStore } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import {
-  AnyAction,
-  applyMiddleware,
-  combineReducers,
-  createStore,
-} from "redux";
-import thunk from "redux-thunk";
 
 import appReducer from "./AppState";
 import authReducer from "./Auth";
 import logReducer from "./Log";
 
-const rootReducer = combineReducers({
+const reducer = {
   app: appReducer,
   auth: authReducer,
   log: logReducer,
-});
-
-export const createRootStore = () => {
-  return createStore(rootReducer, applyMiddleware(thunk));
 };
 
-export type RootState = ReturnType<typeof rootReducer>;
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+});
+
+const { getState } = store;
+
+export type RootState = ReturnType<typeof getState>;
 
 export const useRootState = <T>(selector: (state: RootState) => T) => {
   const state = useSelector(selector);
 
   return state;
 };
+
+export default store;
