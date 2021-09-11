@@ -12,7 +12,12 @@ type Props = {
   onClickCard: (index: number) => void;
 };
 const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
-  usePrepare();
+  const { auth } = useRootState((rootState) => ({
+    auth: rootState.auth,
+  }));
+
+  const dispatch = useDispatch();
+
   const remainCount = useMemo(
     () =>
       superChatList.length -
@@ -20,10 +25,28 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
     [superChatList]
   );
 
+  const [enableRefreshButton, setEnableRefreshButton] = useState(
+    auth.isAuthorized
+  );
+
+  usePrepare();
+
   return (
     <Container>
       <SuperChatCount>
         スーパーチャットの合計(数):{superChatList.length}
+        <RefreshButton
+          onClick={() => {
+            setEnableRefreshButton(false);
+            dispatch(fetchSuperChatEvents(auth));
+            setTimeout(() => {
+              setEnableRefreshButton(true);
+            }, 1000);
+          }}
+          disabled={!enableRefreshButton}
+        >
+          更新
+        </RefreshButton>
       </SuperChatCount>
       <ChatCardContainer>
         {superChatList.map((superChat, index) => (
@@ -73,6 +96,7 @@ const ChatCardContainer = styled.div`
 `;
 
 const SuperChatCount = styled.div`
+  position: relative;
   background-color: #212121;
   text-align: center;
   display: flex;
@@ -83,6 +107,15 @@ const SuperChatCount = styled.div`
   font-weight: bold;
   width: 100%;
   padding: 5px 0;
+`;
+
+const RefreshButton = styled.button`
+  position: absolute;
+  right: 10px;
+  margin: 5px;
+  height: 28px;
+  border-radius: 12px;
+  background-color: aquamarine;
 `;
 
 const SuperChatRemainCountContainer = styled.div`
