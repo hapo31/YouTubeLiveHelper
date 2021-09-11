@@ -34,7 +34,7 @@ const Tools = () => {
       <Button
         disabled={videoId == null}
         onClick={() => {
-          copy(`https://studio.youtube.com/video/${videoId}/livestreaming`);
+          copy(`https://www.youtube.com/watch?v=${videoId}`);
         }}
       >
         配信URLをコピー
