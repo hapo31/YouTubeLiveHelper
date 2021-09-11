@@ -107,26 +107,28 @@ const slice = createSlice({
     builder.addCase(fetchSuperChatEvents.fulfilled, (state, action) => {
       const { result } = action.payload;
       state.superChatList.push(
-        ...result.map((result) => {
-          const [primaryColor, secondaryColor, authorColor] =
-            superChatColorTable(result.snippet.messageType);
-          return {
-            id: result.id,
-            author: result.snippet.supporterDetails.displayName,
-            checked: false,
-            imgUrl: result.snippet.supporterDetails.profileImageUrl,
-            message: result.snippet.commentText,
-            purches: result.snippet.displayString,
-            createdAt: result.snippet.createdAt,
-            videoId: "", // 日時から特定できそうだけど面倒ね
-            superChatColorInfo: {
-              text: authorColor,
-              primary: primaryColor,
-              secondary: secondaryColor,
-              message: authorColor,
-            },
-          };
-        })
+        ...result
+          .filter((item) => !state.superChatList.some((s) => s.id === item.id)) // 重複は取り除く(このやり方は重そう)
+          .map((result) => {
+            const [primaryColor, secondaryColor, authorColor] =
+              superChatColorTable(result.snippet.messageType);
+            return {
+              id: result.id,
+              author: result.snippet.supporterDetails.displayName,
+              checked: false,
+              imgUrl: result.snippet.supporterDetails.profileImageUrl,
+              message: result.snippet.commentText,
+              purches: result.snippet.displayString,
+              createdAt: result.snippet.createdAt,
+              videoId: "", // 日時から特定できそうだけど面倒ね
+              superChatColorInfo: {
+                text: authorColor,
+                primary: primaryColor,
+                secondary: secondaryColor,
+                message: authorColor,
+              },
+            };
+          })
       );
       state.isLoadingSuperchatEvents = false;
     });
