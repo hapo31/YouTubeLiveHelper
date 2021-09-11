@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --watch --config ./webpack.config.js",
+    "watch": "webpack --watch --config ./webpack.config.js",
     "format": "prettier-eslint --write './src/**/*.{ts,tsx}'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
