@@ -52,7 +52,10 @@ export const fetchSuperChatEvents = createAsyncThunk(
   "app/fetchSuperChatEvents",
   async (authInfo: AuthInfo, thunkAPI) => {
     thunkAPI.dispatch(StartFetchSuperchat());
-    const result = await fetchSuperChatEventsAPI(authInfo, true);
+    const result = await fetchSuperChatEventsAPI(
+      authInfo,
+      process.env.NODE_ENV !== "production"
+    );
     thunkAPI.dispatch(FinishedFetchSuperchat());
     return { result };
   }
