@@ -11,14 +11,14 @@ export type AuthState = {
   isAuthorized: boolean;
   accessToken: string;
   refreshToken: string;
-  expiresIn: Date;
+  expiresIn: string;
 };
 
 const initialState: AuthState = {
   isAuthorized: false,
   accessToken: "",
   refreshToken: "",
-  expiresIn: new Date("1970-01-01"),
+  expiresIn: "1970-01-01",
 };
 
 export const getAuthInfoAsync = createAsyncThunk<OAuthInfo | undefined>(
@@ -61,7 +61,7 @@ const slice = createSlice({
         return;
       }
       state.accessToken = payload.access_token;
-      state.expiresIn = new Date(payload.expires_in);
+      state.expiresIn = new Date(payload.expires_in).toDateString();
       state.refreshToken = payload.refresh_token;
       state.isAuthorized =
         state.accessToken != null && state.refreshToken != null;
@@ -73,7 +73,7 @@ const slice = createSlice({
         return;
       }
       state.accessToken = payload.access_token;
-      state.expiresIn = new Date(payload.expires_in);
+      state.expiresIn = new Date(payload.expires_in).toDateString();
       state.refreshToken = payload.refresh_token;
       state.isAuthorized =
         state.accessToken != null && state.refreshToken != null;
