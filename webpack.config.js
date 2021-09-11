@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 const isDev = process.env.NODE_ENV !== "production";
 
-const outputPath = path.resolve(__dirname, "dist");
+const outputPath = path.resolve(__dirname, isDev ? "dist" : "build");
 const resolveExt = [".json", ".js", ".jsx", ".css", ".ts", ".tsx", ".svg"];
 
 var popup = {
@@ -47,6 +47,15 @@ var popup = {
         {
           from: path.resolve(__dirname, "src", "popup.html"),
           to: path.resolve(__dirname, outputPath),
+        },
+        {
+          from: path.resolve(__dirname, "manifest.json"),
+        },
+        {
+          from: path.resolve(__dirname, "icons", "48.png"),
+        },
+        {
+          from: path.resolve(__dirname, "icons", "16.png"),
         },
       ],
     }),

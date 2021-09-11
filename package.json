@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "watch": "webpack --watch --config ./webpack.config.js",
+    "build": "NODE_ENV=production webpack --config ./webpack.config.js --mode=production",
     "format": "prettier-eslint --write './src/**/*.{ts,tsx}'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

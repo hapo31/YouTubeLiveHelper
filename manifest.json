@@ -3,13 +3,11 @@
     "name": "Youtube Live Helper",
     "description": "Youtube Live をちょっと便利にします",
     "version": "1.0",
+    "icons": {
+      "16": "16.png",
+      "48": "48.png"
+    },
     "content_scripts": [
-      {
-        "matches": [
-          "https://studio.youtube.com/video/*/livestreaming"
-        ],
-        "js": ["script.js"]
-      },
       {
         "run_at": "document_end",
         "matches": [
