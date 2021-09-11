@@ -3,45 +3,38 @@ import { SuperChatInfo } from "../../state/AppState";
 
 type Props = {
   superChatInfo: SuperChatInfo;
-  index: number;
-  onClick: (index: number) => void;
+  onClick: () => void;
 };
 
 const ChatCard = (props: Props) => {
-  const onClickCopyHandler = (text: string) => async () => {
-    navigator.clipboard.writeText(text);
-  };
-
-  const onClickContainerHandler = (index: number) => () => props.onClick(index);
-
   const { superChatInfo } = props;
   return (
     <Container
-      onClick={onClickContainerHandler(props.index)}
+      onClick={props.onClick}
       isBordered={superChatInfo.checked}
       className="container"
     >
       <Header backgroundColor={superChatInfo.superChatColorInfo.secondary}>
         <Img src={superChatInfo.imgUrl} alt="" height="40" width="40" />
         <Wrapper>
-          <Name
-            onClick={onClickCopyHandler(superChatInfo.author)}
-            color={superChatInfo.superChatColorInfo.authorName}
-            dangerouslySetInnerHTML={{ __html: superChatInfo.authorRaw }}
-          />
-          <Purches color={superChatInfo.superChatColorInfo.header}>
+          <Name color={superChatInfo.superChatColorInfo.text}>
+            {superChatInfo.author}
+          </Name>
+          <Purches color={superChatInfo.superChatColorInfo.text}>
             {superChatInfo.purches}
           </Purches>
         </Wrapper>
       </Header>
-      {superChatInfo.messageRaw.length > 0 ? (
+      {superChatInfo.message.length > 0 && (
         <Message
-          onClick={onClickCopyHandler(superChatInfo.message)}
           backgroundColor={superChatInfo.superChatColorInfo.primary}
           color={superChatInfo.superChatColorInfo.message}
-          dangerouslySetInnerHTML={{ __html: superChatInfo.messageRaw }}
-        />
-      ) : null}
+        >
+          {superChatInfo.message}
+        </Message>
+      )}
+
+      {superChatInfo.checked && <Checkmark>✔</Checkmark>}
     </Container>
   );
 };
@@ -54,11 +47,12 @@ type styledProps = {
 };
 
 const Container = styled.div`
+  position: relative;
   box-shadow: ${({ isBordered }: { isBordered: boolean }) =>
-    isBordered ? "0 0 0 3px white" : "none"};
+    isBordered ? "0 0 0 3px rgb(200, 200, 63)" : "none"};
   margin: 8px;
   :hover {
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 0 3px rgba(200, 200, 63, 0.75);
     transition: 0.2s;
   }
   > img {
@@ -104,4 +98,11 @@ const Message = styled.div`
     width: 24px;
     height: 24px;
   }
+`;
+
+const Checkmark = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
 `;
