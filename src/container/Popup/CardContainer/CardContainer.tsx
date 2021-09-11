@@ -10,53 +10,14 @@ const videoIdParseRegExp =
 const CardContainer = () => {
   const appState = useAppState();
   const dispatch = useDispatch();
-  const videoId = appState.showingVideoId;
-  const onClickCardHandler = useCallback(
-    (index: number) => {
-      if (videoId) {
-        dispatch(CheckedSuperchat({ videoId, index }));
-      }
-    },
-    [videoId]
-  );
 
   return (
-    <>
-      <button
-        onClick={() => {
-          dispatch(
-            AddSuperchat({
-              videoId: "test",
-              superChat: {
-                author: "test",
-                authorRaw: "testtest",
-                checked: false,
-                imgUrl: "",
-                message: "hogeee",
-                messageRaw: "heoea",
-                purches: "200",
-                superChatColorInfo: {
-                  authorName: "hoge",
-                  header: "hhhh",
-                  message: "123131",
-                  primary: "#aaa",
-                  secondary: "#690",
-                  timestamp: "11415",
-                },
-              },
-            })
-          );
-        }}
-      >
-        test
-      </button>
-      <SuperChatCardList
-        onClickCard={onClickCardHandler}
-        superChatList={
-          videoId ? appState.streamings[videoId]?.superChatInfoList ?? [] : []
-        }
-      />
-    </>
+    <SuperChatCardList
+      onClickCard={(index: number) => {
+        dispatch(CheckedSuperchat({ index }));
+      }}
+      superChatList={appState.superChatList}
+    />
   );
 };
 
