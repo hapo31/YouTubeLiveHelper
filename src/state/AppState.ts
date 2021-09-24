@@ -28,6 +28,7 @@ export type SuperChatInfo = {
   superChatColorInfo: SuperChatColorInfo;
   createdAt: string;
   checked: boolean;
+  showing: boolean;
 };
 
 export type LiveStreamingInfo = {
@@ -107,10 +108,15 @@ const slice = createSlice({
         payload: { superChat },
       } = action;
       state.superChatList.push(superChat);
+      if (state.superChatList.length > 100) {
+        state.superChatList.pop();
+      }
       chrome.storage.local.set({ super_chat: state.superChatList });
     },
     RemoveCheckedSuperchat: (state, action: PayloadAction<void>) => {
-      state.superChatList = state.superChatList.filter((item) => !item.checked);
+      state.superChatList = state.superChatList.map((item) =>
+        item.checked ? { ...item, showing: false } : item
+      );
 
       setSuperchatToChromeStorage(state.superChatList);
     },
@@ -153,6 +159,7 @@ const slice = createSlice({
                 secondary: secondaryColor,
                 message: authorColor,
               },
+              showing: true,
             };
           })
       );
