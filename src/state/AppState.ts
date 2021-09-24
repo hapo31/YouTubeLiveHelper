@@ -109,6 +109,11 @@ const slice = createSlice({
       state.superChatList.push(superChat);
       chrome.storage.local.set({ super_chat: state.superChatList });
     },
+    RemoveCheckedSuperchat: (state, action: PayloadAction<void>) => {
+      state.superChatList = state.superChatList.filter((item) => !item.checked);
+
+      setSuperchatToChromeStorage(state.superChatList);
+    },
     CheckedSuperchat: (
       state,
       action: PayloadAction<{
@@ -120,9 +125,7 @@ const slice = createSlice({
       } = action;
       state.superChatList[index].checked = true;
 
-      chrome.storage.local.set({
-        super_chat: JSON.stringify(state.superChatList),
-      });
+      setSuperchatToChromeStorage(state.superChatList);
     },
   },
 
@@ -167,6 +170,12 @@ const slice = createSlice({
   },
 });
 
+async function setSuperchatToChromeStorage(item: SuperChatInfo[]) {
+  await chrome.storage.local.set({
+    super_chat: JSON.stringify(item),
+  });
+}
+
 const { StartFetchSuperchat, FinishedFetchSuperchat } = slice.actions;
 
 export const {
@@ -174,5 +183,6 @@ export const {
   CheckedSuperchat,
   SetShowingVideoId,
   ResolvedError,
+  RemoveCheckedSuperchat,
 } = slice.actions;
 export default slice.reducer;

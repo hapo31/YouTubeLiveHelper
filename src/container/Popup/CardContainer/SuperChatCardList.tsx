@@ -1,6 +1,10 @@
 import { useMemo, useEffect, useState } from "react";
 import styled from "styled-components";
-import { fetchSuperChatEvents, SuperChatInfo } from "../../../state/AppState";
+import {
+  fetchSuperChatEvents,
+  RemoveCheckedSuperchat,
+  SuperChatInfo,
+} from "../../../state/AppState";
 
 import ChatCard from "../../../components/ChatCard/ChatCard";
 import { useRootState } from "../../../state/root";
@@ -57,11 +61,19 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
           />
         ))}
       </ChatCardContainer>
-      {remainCount > 0 ? (
-        <SuperChatRemainCountContainer>
+
+      <FooterContainer>
+        {remainCount > 0 ? (
           <SuperChatRemainCount>未読:{remainCount}</SuperChatRemainCount>
-        </SuperChatRemainCountContainer>
-      ) : null}
+        ) : null}
+        {/* <RemoveButton
+          onClick={() => {
+            dispatch(RemoveCheckedSuperchat());
+          }}
+        >
+          チェック済みを削除
+        </RemoveButton> */}
+      </FooterContainer>
     </Container>
   );
 };
@@ -100,7 +112,19 @@ const RefreshButton = styled.button`
   background-color: aquamarine;
 `;
 
-const SuperChatRemainCountContainer = styled.div`
+const RemoveButton = styled.button`
+  position: absolute;
+  left: 10px;
+  margin: 5px;
+  height: 18px;
+  border-radius: 12px;
+  color: #fff;
+  background-color: maroon;
+  font-size: 10px;
+  line-height: 10px;
+`;
+
+const FooterContainer = styled.div`
   text-align: center;
   position: fixed;
   display: flex;
