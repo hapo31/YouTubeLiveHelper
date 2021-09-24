@@ -48,6 +48,17 @@ const initialState: AppState = {
   superChatList: [],
 };
 
+export const loadSuperchatFromStorage = createAsyncThunk(
+  "app/loadSuperchatFromStorage",
+  () => {
+    return new Promise<{ result: SuperChatInfo[] }>((res) => {
+      chrome.storage.local.get("super_chat", (result) => {
+        res({ result: JSON.parse(result["super_chat"]) });
+      });
+    });
+  }
+);
+
 export const fetchSuperChatEvents = createAsyncThunk(
   "app/fetchSuperChatEvents",
   async (authInfo: AuthInfo, thunkAPI) => {
@@ -92,6 +103,7 @@ const slice = createSlice({
         payload: { superChat },
       } = action;
       state.superChatList.push(superChat);
+      chrome.storage.local.set({ super_chat: state.superChatList });
     },
     CheckedSuperchat: (
       state,
@@ -103,6 +115,10 @@ const slice = createSlice({
         payload: { index },
       } = action;
       state.superChatList[index].checked = true;
+
+      chrome.storage.local.set({
+        super_chat: JSON.stringify(state.superChatList),
+      });
     },
   },
 
@@ -139,6 +155,10 @@ const slice = createSlice({
     builder.addCase(fetchSuperChatEvents.rejected, (state, action) => {
       state.fetchSuperchatError = action.error as Error;
       state.isLoadingSuperchatEvents = false;
+    });
+
+    builder.addCase(loadSuperchatFromStorage.fulfilled, (state, action) => {
+      state.superChatList = action.payload.result;
     });
   },
 });
