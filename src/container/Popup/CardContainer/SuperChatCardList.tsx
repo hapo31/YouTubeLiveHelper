@@ -29,7 +29,7 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
     auth.isAuthorized
   );
 
-  usePrepare();
+  useErrorHandle();
 
   return (
     <Container>
@@ -67,24 +67,6 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
 };
 
 export default SuperChatCardList;
-
-const usePrepare = () => {
-  const [superChatFetched] = useState(false);
-  const { auth } = useRootState((rootState) => ({
-    auth: rootState.auth,
-    app: rootState.app,
-  }));
-
-  const dispatch = useDispatch();
-
-  useErrorHandle();
-
-  useEffect(() => {
-    if (auth.isAuthorized && !superChatFetched) {
-      dispatch(fetchSuperChatEvents(auth));
-    }
-  }, [auth, dispatch, superChatFetched]);
-};
 
 const Container = styled.div`
   user-select: none;

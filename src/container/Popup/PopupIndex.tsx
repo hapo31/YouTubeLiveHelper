@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import { getAuthInfoAsync } from "../../state/Auth";
@@ -8,11 +8,16 @@ import OAuthRequiredContainer from "./OAuthRequiredContainer/OAuthRequiredContai
 import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 import { AppTheme } from "../../mixins/AppTheme";
-import { SetShowingVideoId } from "../../state/AppState";
+import {
+  fetchSuperChatEvents,
+  loadSuperchatFromStorage,
+  SetShowingVideoId,
+} from "../../state/AppState";
 import LogContainer from "./LogContainer/LogContainer";
 import Tools from "./Tools/Tools";
 
 const PopupIndex = () => {
+  const [superChatFetched] = useState(false);
   const dispatch = useDispatch();
 
   const { auth } = useRootState((rootState) => ({
@@ -24,7 +29,11 @@ const PopupIndex = () => {
       dispatch(getAuthInfoAsync());
       dispatch(SetShowingVideoId({ videoId: "test" }));
     }
-  }, [auth.isAuthorized, dispatch]);
+    if (auth.isAuthorized && !superChatFetched) {
+      dispatch(loadSuperchatFromStorage());
+      dispatch(fetchSuperChatEvents(auth));
+    }
+  }, [auth, auth.isAuthorized, dispatch, superChatFetched]);
 
   return (
     <AppTab defaultIndex={0}>
