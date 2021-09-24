@@ -37,8 +37,7 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
 
   return (
     <Container>
-      <SuperChatCount>
-        スーパーチャットの合計(数):{superChatList.length}
+      <HeaderContainer>
         <RefreshButton
           onClick={() => {
             setEnableRefreshButton(false);
@@ -51,29 +50,28 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
         >
           更新
         </RefreshButton>
-      </SuperChatCount>
-      <ChatCardContainer>
-        {superChatList.map((superChat, index) => (
-          <ChatCard
-            key={`${index}-${superChat.message}`}
-            onClick={() => onClickCard(index)}
-            superChatInfo={superChat}
-          />
-        ))}
-      </ChatCardContainer>
-
-      <FooterContainer>
         {remainCount > 0 ? (
           <SuperChatRemainCount>未読:{remainCount}</SuperChatRemainCount>
         ) : null}
-        {/* <RemoveButton
+        <RemoveButton
           onClick={() => {
             dispatch(RemoveCheckedSuperchat());
           }}
         >
           チェック済みを削除
-        </RemoveButton> */}
-      </FooterContainer>
+        </RemoveButton>
+      </HeaderContainer>
+      <ChatCardContainer>
+        {superChatList
+          .filter((superChat) => superChat.showing)
+          .map((superChat, index) => (
+            <ChatCard
+              key={`${index}-${superChat.message}`}
+              onClick={() => onClickCard(index)}
+              superChatInfo={superChat}
+            />
+          ))}
+      </ChatCardContainer>
     </Container>
   );
 };
@@ -81,63 +79,46 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
 export default SuperChatCardList;
 
 const Container = styled.div`
+  height: calc(100vh - 43px);
+  overflow-y: hidden;
   user-select: none;
 `;
 
 const ChatCardContainer = styled.div`
-  overflow-y: scroll;
-  height: 489px;
+  overflow-y: auto;
+  height: 95%;
 `;
 
-const SuperChatCount = styled.div`
-  position: relative;
-  background-color: #212121;
+const HeaderContainer = styled.div`
   text-align: center;
   display: flex;
-  justify-content: center;
-  vertical-align: center;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding: 5px 0;
+  height: 5%;
 `;
 
 const RefreshButton = styled.button`
-  position: absolute;
-  right: 10px;
   margin: 5px;
-  height: 28px;
   border-radius: 12px;
   background-color: aquamarine;
-`;
-
-const RemoveButton = styled.button`
-  position: absolute;
-  left: 10px;
-  margin: 5px;
   height: 18px;
-  border-radius: 12px;
-  color: #fff;
-  background-color: maroon;
   font-size: 10px;
   line-height: 10px;
 `;
 
-const FooterContainer = styled.div`
-  text-align: center;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 20px;
-  bottom: 0;
-  z-index: 999;
+const RemoveButton = styled.button`
+  margin: 5px;
+  border-radius: 12px;
+  color: #fff;
+  background-color: maroon;
+  height: 18px;
+  font-size: 10px;
+  line-height: 10px;
 `;
 
 const SuperChatRemainCount = styled.div`
-  position: fixed;
-  bottom: 5px;
+  height: 18px;
   padding: 1px 10px;
   color: #212121;
   border-radius: 16px;
