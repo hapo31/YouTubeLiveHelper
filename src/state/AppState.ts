@@ -4,6 +4,7 @@ import {
   AuthInfo,
   fetchSuperChatEvents as fetchSuperChatEventsAPI,
 } from "../domain/Youtube/YoutubeAPI";
+import { addLog, LogLevel } from "./Log";
 
 type SuperChatColorInfo = {
   primary: string;
@@ -66,6 +67,9 @@ export const fetchSuperChatEvents = createAsyncThunk(
     const result = await fetchSuperChatEventsAPI(
       authInfo,
       process.env.NODE_ENV !== "production"
+    );
+    thunkAPI.dispatch(
+      addLog({ message: "fetchSuperChatEvents", level: LogLevel.INFO })
     );
     thunkAPI.dispatch(FinishedFetchSuperchat());
     return { result };
