@@ -10,7 +10,10 @@ import { addLog, LogLevel } from "../state/Log";
 import { useRootState } from "../state/root";
 
 export default function useErrorHandle() {
-  const { app: fetchSuperchatError, auth } = useRootState((root) => ({
+  const {
+    app: { fetchSuperchatError },
+    auth,
+  } = useRootState((root) => ({
     app: root.app,
     auth: root.auth,
   }));
@@ -34,8 +37,9 @@ export default function useErrorHandle() {
       } else {
         dispatch(
           addLog({
-            message:
-              "不明なエラーが発生しました。ネットワーク接続が切れている可能性があります。",
+            message: `不明なエラーが発生しました。${JSON.stringify(
+              fetchSuperchatError
+            )}`,
             level: LogLevel.ERROR,
           })
         );
