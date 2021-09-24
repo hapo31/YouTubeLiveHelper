@@ -1,7 +1,6 @@
-import { useCallback } from "react";
 import SuperChatCardList from "./SuperChatCardList";
 import { useSelector, useDispatch } from "react-redux";
-import { AddSuperchat, CheckedSuperchat } from "../../../state/AppState";
+import { CheckedSuperchat } from "../../../state/AppState";
 import { RootState } from "../../../state/root";
 
 const videoIdParseRegExp =
