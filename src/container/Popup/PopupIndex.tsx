@@ -41,6 +41,7 @@ const PopupIndex = () => {
         <Tab>ツール</Tab>
         <Tab>スーパーチャット</Tab>
         <Tab>ログイン {auth.isAuthorized ? "✔" : ""}</Tab>
+        <Tab>設定</Tab>
         <Tab>ログ</Tab>
       </TabList>
       <AppTabPanel>

@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import appReducer from "./AppState";
 import authReducer from "./Auth";
 import logReducer from "./Log";
+import configReducer from "./Config";
 
 const reducer = {
   app: appReducer,
   auth: authReducer,
   log: logReducer,
+  config: configReducer,
 };
 
 const store = configureStore({
