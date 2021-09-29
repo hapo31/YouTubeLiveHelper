@@ -551,7 +551,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/plugin-syntax-jsx@^7.14.5":
+"@babel/plugin-syntax-jsx@^7.14.5", "@babel/plugin-syntax-jsx@^7.2.0":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.14.5.tgz#000e2e25d8673cce49300517a3eda44c263e4201"
   integrity sha512-ohuFIsOMXJnbOMRfX7/w7LocdR6R7whhuRD4ax8IipLcLPlZGJKkBxgHp++U4N/vKyU16/YDQr2f5seajD3jIw==
@@ -4169,6 +4169,11 @@ babel-plugin-react-docgen@^4.0.0, babel-plugin-react-docgen@^4.2.1:
     ast-types "^0.14.2"
     lodash "^4.17.15"
     react-docgen "^5.0.0"
+
+babel-plugin-react-svg@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-svg/-/babel-plugin-react-svg-3.0.3.tgz#7da46a0bd8319f49ac85523d259f145ce5d78321"
+  integrity sha512-Pst1RWjUIiV0Ykv1ODSeceCBsFOP2Y4dusjq7/XkjuzJdvS9CjpkPMUIoO4MLlvp5PiLCeMlsOC7faEUA0gm3Q==
 
 "babel-plugin-styled-components@>= 1.12.0":
   version "1.13.2"
@@ -8933,6 +8938,11 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.isplainobject@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
+  integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -11158,6 +11168,27 @@ react-sizeme@^3.0.1:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^3.0.1"
+
+react-svg-core@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-svg-core/-/react-svg-core-3.0.3.tgz#5d856efeaa4d089b0afeebe885b20b8c9500d162"
+  integrity sha512-Ws3eM3xCAwcaYeqm4Ajcz3zxBYNI6BeTWWhFR0cpOT+pWuVtozgHYK9xUM0S/ilapZgYMQDe49XgOxpvooFq4w==
+  dependencies:
+    "@babel/core" "^7.4.5"
+    "@babel/plugin-syntax-jsx" "^7.2.0"
+    "@babel/preset-react" "^7.0.0"
+    babel-plugin-react-svg "^3.0.3"
+    lodash.clonedeep "^4.5.0"
+    lodash.isplainobject "^4.0.6"
+    svgo "^1.2.2"
+
+react-svg-loader@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-svg-loader/-/react-svg-loader-3.0.3.tgz#8baa2d5daa32523dfd0745425ac65e0a90edae15"
+  integrity sha512-V1KnIUtvWVvc4xCig34n+f+/74ylMMugB2FbuAF/yq+QRi+WLi2hUYp9Ze3VylhA1D7ZgRygBh3Ojj8S3TPhJA==
+  dependencies:
+    loader-utils "^1.2.3"
+    react-svg-core "^3.0.3"
 
 react-syntax-highlighter@^11.0.2:
   version "11.0.3"

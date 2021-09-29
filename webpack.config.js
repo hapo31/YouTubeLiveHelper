@@ -28,7 +28,7 @@ var popup = {
       },
       {
         test: /.svg$/,
-        include: [path.resolve(__dirname, "img")],
+        include: [path.resolve(__dirname, "src")],
         exclude: [path.resolve(__dirname, "node_modules")],
         loader: "react-svg-loader",
       },
