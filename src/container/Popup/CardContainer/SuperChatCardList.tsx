@@ -10,23 +10,31 @@ import ChatCard from "../../../components/ChatCard/ChatCard";
 import { useRootState } from "../../../state/root";
 import { useDispatch } from "react-redux";
 import useErrorHandle from "../../../hooks/useErrorHandle";
+import { Config, SetConfig } from "../../../state/Config";
+import SortDirIcon from "../../../components/Common/SortDirIcon";
 
 type Props = {
-  superChatList: SuperChatInfo[];
-  onClickCard: (index: number) => void;
+  superChatListData: SuperChatInfo[];
+  onClickCard: (id: string) => void;
 };
-const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
-  const { auth } = useRootState((rootState) => ({
+const SuperChatCardList = ({ superChatListData, onClickCard }: Props) => {
+  const { auth, config } = useRootState((rootState) => ({
     auth: rootState.auth,
+    config: rootState.config,
   }));
 
   const dispatch = useDispatch();
 
   const remainCount = useMemo(
     () =>
-      superChatList.length -
-      superChatList.filter((chat) => chat.checked).length,
-    [superChatList]
+      superChatListData.length -
+      superChatListData.filter((chat) => chat.checked).length,
+    [superChatListData]
+  );
+
+  const superChatList = useMemo(
+    () => superChatListData.slice().sort(sortSelector(config)),
+    [config, superChatListData]
   );
 
   const [enableRefreshButton, setEnableRefreshButton] = useState(
@@ -50,6 +58,15 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
         >
           更新
         </RefreshButton>
+        <RefreshButton
+          onClick={() => {
+            const newValue = config.superChatSortDir === "asc" ? "desc" : "asc";
+            dispatch(SetConfig({ key: "superChatSortDir", value: newValue }));
+          }}
+        >
+          {config.superChatSortDir === "asc" ? "昇順" : "降順"}
+          <SortDirIcon dir={config.superChatSortDir} />
+        </RefreshButton>
         {remainCount > 0 ? (
           <SuperChatRemainCount>未読:{remainCount}</SuperChatRemainCount>
         ) : null}
@@ -67,7 +84,7 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
           .map((superChat, index) => (
             <ChatCard
               key={`${index}-${superChat.message}`}
-              onClick={() => onClickCard(index)}
+              onClick={() => onClickCard(superChat.id)}
               superChatInfo={superChat}
             />
           ))}
@@ -75,6 +92,19 @@ const SuperChatCardList = ({ superChatList, onClickCard }: Props) => {
     </Container>
   );
 };
+
+function sortSelector(config: Config) {
+  const dir = config.superChatSortDir === "asc" ? -1 : 1;
+  switch (config.superChatSortType) {
+    case "date":
+      return (a: SuperChatInfo, b: SuperChatInfo) =>
+        (a.createdAt - b.createdAt) * dir;
+
+    default:
+      return (a: SuperChatInfo, b: SuperChatInfo) =>
+        (a.createdAt - b.createdAt) * dir;
+  }
+}
 
 export default SuperChatCardList;
 
