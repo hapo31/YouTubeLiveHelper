@@ -54,6 +54,9 @@ const PopupIndex = () => {
         <OAuthRequiredContainer />
       </AppTabPanel>
       <AppTabPanel>
+        <h1>設定</h1>
+      </AppTabPanel>
+      <AppTabPanel>
         <LogContainer />
       </AppTabPanel>
     </AppTab>
