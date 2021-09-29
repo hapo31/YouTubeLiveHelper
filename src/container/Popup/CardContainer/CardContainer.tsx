@@ -12,10 +12,10 @@ const CardContainer = () => {
 
   return (
     <SuperChatCardList
-      onClickCard={(index: number) => {
-        dispatch(CheckedSuperchat({ index }));
+      onClickCard={(id: string) => {
+        dispatch(CheckedSuperchat({ id }));
       }}
-      superChatList={appState.superChatList}
+      superChatListData={appState.superChatList}
     />
   );
 };

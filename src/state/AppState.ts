@@ -26,7 +26,7 @@ export type SuperChatInfo = {
   author: string;
   message: string;
   superChatColorInfo: SuperChatColorInfo;
-  createdAt: string;
+  createdAt: number;
   checked: boolean;
   showing: boolean;
 };
@@ -123,12 +123,14 @@ const slice = createSlice({
     CheckedSuperchat: (
       state,
       action: PayloadAction<{
-        index: number;
+        id: string;
       }>
     ) => {
       const {
-        payload: { index },
+        payload: { id },
       } = action;
+
+      const index = state.superChatList.findIndex((item) => item.id === id);
       state.superChatList[index].checked = true;
 
       setSuperchatToChromeStorage(state.superChatList);
@@ -151,7 +153,7 @@ const slice = createSlice({
               imgUrl: result.snippet.supporterDetails.profileImageUrl,
               message: result.snippet.commentText,
               purches: result.snippet.displayString,
-              createdAt: result.snippet.createdAt,
+              createdAt: new Date(result.snippet.createdAt).getTime(),
               videoId: "", // 日時から特定できそうだけど面倒ね
               superChatColorInfo: {
                 text: authorColor,
