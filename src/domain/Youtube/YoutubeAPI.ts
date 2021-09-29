@@ -54,7 +54,10 @@ export const fetchSuperChatEvents = async (
   test = false
 ): Promise<SuperChatEventResponse> => {
   if (test) {
-    return (await import("../../../sample_data.json")).default;
+    return (await import("../../../sample_data.json")).default.map((data) => ({
+      ...data,
+      id: Math.floor(Math.random() * 10000000).toString(),
+    }));
   } else {
     const res = await googleAPIFetch(
       "get",
