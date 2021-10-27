@@ -2,3 +2,5 @@ node_modules/
 dist/
 yarn-error.log
 build/
+sample_data.json
+*.zip
