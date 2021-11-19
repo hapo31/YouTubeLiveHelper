@@ -1,5 +1,6 @@
 import add from "date-fns/add";
 import qs from "qs";
+import superChatColorTable from "../SuperChat/superchatColorTable";
 
 export class YoutubeAPIError extends Error {
   constructor(message: string) {
@@ -71,6 +72,29 @@ export const fetchSuperChatEvents = async (
     return data.items;
   }
 };
+
+export function fetchSuperChatToStore(result: SuperChatEvent) {
+  const [primaryColor, secondaryColor, authorColor] = superChatColorTable(
+    result.snippet.messageType
+  );
+  return {
+    id: result.id,
+    author: result.snippet.supporterDetails.displayName,
+    checked: false,
+    imgUrl: result.snippet.supporterDetails.profileImageUrl,
+    message: result.snippet.commentText,
+    purches: result.snippet.displayString,
+    createdAt: new Date(result.snippet.createdAt).getTime(),
+    videoId: "", // 日時から特定できそうだけど面倒ね
+    superChatColorInfo: {
+      text: authorColor,
+      primary: primaryColor,
+      secondary: secondaryColor,
+      message: authorColor,
+    },
+    showing: true,
+  };
+}
 
 type SuperChatEventResponse = SuperChatEvent[];
 

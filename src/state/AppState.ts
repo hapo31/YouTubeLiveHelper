@@ -3,6 +3,7 @@ import superChatColorTable from "../domain/SuperChat/superchatColorTable";
 import {
   AuthInfo,
   fetchSuperChatEvents as fetchSuperChatEventsAPI,
+  fetchSuperChatToStore,
 } from "../domain/Youtube/YoutubeAPI";
 import { addLog, LogLevel } from "./Log";
 
@@ -143,27 +144,7 @@ const slice = createSlice({
       state.superChatList.push(
         ...result
           .filter((item) => !state.superChatList.some((s) => s.id === item.id)) // 重複は取り除く(このやり方は重そう)
-          .map((result) => {
-            const [primaryColor, secondaryColor, authorColor] =
-              superChatColorTable(result.snippet.messageType);
-            return {
-              id: result.id,
-              author: result.snippet.supporterDetails.displayName,
-              checked: false,
-              imgUrl: result.snippet.supporterDetails.profileImageUrl,
-              message: result.snippet.commentText,
-              purches: result.snippet.displayString,
-              createdAt: new Date(result.snippet.createdAt).getTime(),
-              videoId: "", // 日時から特定できそうだけど面倒ね
-              superChatColorInfo: {
-                text: authorColor,
-                primary: primaryColor,
-                secondary: secondaryColor,
-                message: authorColor,
-              },
-              showing: true,
-            };
-          })
+          .map(fetchSuperChatToStore)
       );
       state.isLoadingSuperchatEvents = false;
     });
