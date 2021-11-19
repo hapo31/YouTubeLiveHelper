@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { StartOAuth } from "../../../chrome/eventConsts";
-import Button from "../../../components/Common/Button";
+import { Button } from "../../../components/Common/Button";
 import { AppTheme } from "../../../mixins/AppTheme";
 import { resetAuthAsync } from "../../../state/Auth";
 import { useRootState } from "../../../state/root";

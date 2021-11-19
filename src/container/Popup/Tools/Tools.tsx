@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import copy from "clipboard-copy";
-import Button from "../../../components/Common/Button";
+import { Button } from "../../../components/Common/Button";
 import parseVideoId from "../../../utils/parseVideoId";
 
 const Tools = () => {
