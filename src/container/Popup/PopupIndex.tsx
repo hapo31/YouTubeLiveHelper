@@ -43,6 +43,9 @@ const PopupIndex = () => {
         <Tab>ログイン {auth.isAuthorized ? "✔" : ""}</Tab>
         <Tab>設定</Tab>
         <Tab>ログ</Tab>
+        {process.env.NODE_ENV !== "production" ? (
+          <Tab disabled>開発モード</Tab>
+        ) : null}
       </TabList>
       <AppTabPanel>
         <Tools />
