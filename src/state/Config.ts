@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import GetStorage from "../domain/ChromeExtension/Storage";
 
 export type Config = {
   superChatAutoReloadMinutes: number;
@@ -12,8 +13,17 @@ const initialState: Config = {
   superChatSortDir: "asc",
 };
 
+export const loadConfig = createAsyncThunk("config/loadConfig", async () => {
+  const config = await GetStorage<Config>("config");
+  if (!config) {
+    return initialState;
+  } else {
+    return config;
+  }
+});
+
 const slice = createSlice({
-  name: "conifg",
+  name: "config",
   initialState,
   reducers: {
     SetConfig: <K extends keyof Config, T extends Config[K]>(
@@ -21,7 +31,19 @@ const slice = createSlice({
       action: PayloadAction<{ key: K; value: T }>
     ) => {
       state[action.payload.key] = action.payload.value;
+      chrome.storage.local.set({
+        config: state,
+      });
     },
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(loadConfig.fulfilled, (state, action) => {
+      const { payload } = action;
+      state.superChatAutoReloadMinutes = payload.superChatAutoReloadMinutes;
+      state.superChatSortType = payload.superChatSortType;
+      state.superChatSortDir = payload.superChatSortDir;
+    });
   },
 });
 

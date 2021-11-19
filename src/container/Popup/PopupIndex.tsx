@@ -15,6 +15,8 @@ import {
 } from "../../state/AppState";
 import LogContainer from "./LogContainer/LogContainer";
 import Tools from "./Tools/Tools";
+import Config from "./Config/Config";
+import { loadConfig } from "../../state/Config";
 
 const PopupIndex = () => {
   const [superChatFetched] = useState(false);
@@ -28,6 +30,7 @@ const PopupIndex = () => {
     if (!auth.isAuthorized) {
       dispatch(getAuthInfoAsync());
       dispatch(SetShowingVideoId({ videoId: "test" }));
+      dispatch(loadConfig());
     }
     if (auth.isAuthorized && !superChatFetched) {
       dispatch(loadSuperchatFromStorage());
@@ -57,7 +60,7 @@ const PopupIndex = () => {
         <OAuthRequiredContainer />
       </AppTabPanel>
       <AppTabPanel>
-        <h1>設定</h1>
+        <Config />
       </AppTabPanel>
       <AppTabPanel>
         <LogContainer />
