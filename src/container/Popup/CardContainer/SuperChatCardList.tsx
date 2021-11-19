@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import useErrorHandle from "../../../hooks/useErrorHandle";
 import { Config, SetConfig } from "../../../state/Config";
 import SortDirIcon from "../../../components/Common/SortDirIcon";
+import { RefreshButton, RemoveButton } from "../../../components/Common/Button";
 
 type Props = {
   superChatListData: SuperChatInfo[];
@@ -45,50 +46,60 @@ const SuperChatCardList = ({ superChatListData, onClickCard }: Props) => {
 
   return (
     <Container>
-      <HeaderContainer>
-        <RefreshButton
-          onClick={() => {
-            setEnableRefreshButton(false);
-            dispatch(fetchSuperChatEvents(auth));
-            setTimeout(() => {
-              setEnableRefreshButton(true);
-            }, 1000);
-          }}
-          disabled={!enableRefreshButton}
-        >
-          更新
-        </RefreshButton>
-        <RefreshButton
-          onClick={() => {
-            const newValue = config.superChatSortDir === "asc" ? "desc" : "asc";
-            dispatch(SetConfig({ key: "superChatSortDir", value: newValue }));
-          }}
-        >
-          {config.superChatSortDir === "asc" ? "昇順" : "降順"}
-          <SortDirIcon dir={config.superChatSortDir} />
-        </RefreshButton>
-        {remainCount > 0 ? (
-          <SuperChatRemainCount>未読:{remainCount}</SuperChatRemainCount>
-        ) : null}
-        <RemoveButton
-          onClick={() => {
-            dispatch(RemoveCheckedSuperchat());
-          }}
-        >
-          チェック済みを削除
-        </RemoveButton>
-      </HeaderContainer>
-      <ChatCardContainer>
-        {superChatList
-          .filter((superChat) => superChat.showing)
-          .map((superChat, index) => (
-            <ChatCard
-              key={`${index}-${superChat.message}`}
-              onClick={() => onClickCard(superChat.id)}
-              superChatInfo={superChat}
-            />
-          ))}
-      </ChatCardContainer>
+      {auth.isAuthorized ? (
+        <>
+          <div className="header-container">
+            <RefreshButton
+              onClick={() => {
+                setEnableRefreshButton(false);
+                dispatch(fetchSuperChatEvents(auth));
+                setTimeout(() => {
+                  setEnableRefreshButton(true);
+                }, 1000);
+              }}
+              disabled={!enableRefreshButton}
+            >
+              更新
+            </RefreshButton>
+            <RefreshButton
+              onClick={() => {
+                const newValue =
+                  config.superChatSortDir === "asc" ? "desc" : "asc";
+                dispatch(
+                  SetConfig({ key: "superChatSortDir", value: newValue })
+                );
+              }}
+            >
+              {config.superChatSortDir === "asc" ? "昇順" : "降順"}
+              <SortDirIcon dir={config.superChatSortDir} />
+            </RefreshButton>
+            {remainCount > 0 ? (
+              <div className="superchat-remaincount">未読:{remainCount}</div>
+            ) : null}
+            <RemoveButton
+              onClick={() => {
+                dispatch(RemoveCheckedSuperchat());
+              }}
+            >
+              チェック済みを削除
+            </RemoveButton>
+          </div>
+          <div className="chatcard-container">
+            {superChatList
+              .filter((superChat) => superChat.showing)
+              .map((superChat, index) => (
+                <ChatCard
+                  key={`${index}-${superChat.message}`}
+                  onClick={() => onClickCard(superChat.id)}
+                  superChatInfo={superChat}
+                />
+              ))}
+          </div>
+        </>
+      ) : (
+        <h3>この機能を使用するにはログインが必要です。</h3>
+      )}
+      ;
     </Container>
   );
 };
@@ -112,48 +123,29 @@ const Container = styled.div`
   height: calc(100vh - 43px);
   overflow-y: hidden;
   user-select: none;
-`;
 
-const ChatCardContainer = styled.div`
-  overflow-y: auto;
-  height: 95%;
-`;
+  .chatcard-container {
+    overflow-y: auto;
+    height: 95%;
+  }
 
-const HeaderContainer = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 5%;
-`;
+  .header-container {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+  }
 
-const RefreshButton = styled.button`
-  margin: 5px;
-  border-radius: 12px;
-  background-color: aquamarine;
-  height: 18px;
-  font-size: 10px;
-  line-height: 10px;
-`;
-
-const RemoveButton = styled.button`
-  margin: 5px;
-  border-radius: 12px;
-  color: #fff;
-  background-color: maroon;
-  height: 18px;
-  font-size: 10px;
-  line-height: 10px;
-`;
-
-const SuperChatRemainCount = styled.div`
-  height: 18px;
-  padding: 1px 10px;
-  color: #212121;
-  border-radius: 16px;
-  background-color: aquamarine;
-  width: auto;
-  font-size: 12px;
-  font-weight: bold;
+  .superchat-remaincount {
+    height: 18px;
+    padding: 1px 10px;
+    color: #212121;
+    border-radius: 16px;
+    background-color: aquamarine;
+    width: auto;
+    font-size: 12px;
+    font-weight: bold;
+  }
 `;
